@@ -12,13 +12,13 @@ Highcharts.setOptions({
     }
 });
 
-let chartId = document.getElementById("chart-container");
+let chartIdAmz = document.getElementById("chart-container-amazon-price-increases");
 
 // checks for the chart ID and displays a backup image if the browser can't find it
 setTimeout(function() {
-    if(chartId.innerHTML === "") {
+    if(chartIdAmz.innerHTML === "") {
         // console.log('noId');
-        let chartArea = document.getElementsByClassName("chart-area");
+        let chartAreaAmz = document.getElementsByClassName("chart-area");
         for(var i = 0; i < chartArea.length; i++) {
             chartArea[i].style.display = "none";
         } 
@@ -30,7 +30,7 @@ setTimeout(function() {
 },500);
 
 function drawHighcharts() {
-    Highcharts.chart(chartId, {
+    Highcharts.chart(chartIdAmz, {
         chart: {
             type: 'bar',
             styledMode: true,
@@ -42,32 +42,25 @@ function drawHighcharts() {
         title: {
             text: null
         },
-        data: {
-            googleSpreadsheetKey: '1YOKb5l2VM4aAB2r20N_1aT_1vEajYrP3U-U3A6lZbC0'
-        },
         // for bar charts only
         plotOptions: {
             series: {
                 groupPadding: 0.1
             } 
         },
-        // for line charts only
-        // plotOptions: {
-        //     series: {
-        //         lineWidth: 1,
-        //         // clip: false,
-        //         marker: {
-        //             enabled: false,
-        //             symbol: 'circle',
-        //             fillColor: '#ffffff',
-        //             states: {
-        //                 hover: {
-        //                     fillColor: '#ffffff'
-        //                 }
-        //             }
-        //         }
-        //     }
-        // },
+        series: [{
+            name: '20%+',
+            // color: 'rgba(126,86,134,.9)',
+            data: [78,77,66,61,59,59,54],
+            pointPadding: -.35,
+            pointPlacement: -.15
+        },{
+            name: '50%+',
+            // color: 'rgba(165,170,217,1)',
+            data: [31,23,20,45,11,24,5],
+            pointPadding: 0.15,
+            pointPlacement: .28
+        }],
         legend: {
             align: 'right',
             symbolRadius: 0,
@@ -82,6 +75,15 @@ function drawHighcharts() {
                 }
             },
             tickLength: 5,
+            categories: [
+                'Disinfectant wipes',
+                'Hand sanitizer',
+                'Masks',
+                'Patio heaters',
+                'Hand soap',
+                'Oral thermometers',
+                'Pulse oximeters',
+            ]
             // edits xAxis ticks
             // dateTimeLabelFormats: {
             //     week: '%b. %e',
@@ -94,6 +96,7 @@ function drawHighcharts() {
                 useHTML: true,
                 overflow: 'allow'
             },
+            max: 80
             // adds commas to thousands
             // formatter: function () {
             //     return Highcharts.numberFormat(this.value,0,'.',',');
@@ -104,7 +107,9 @@ function drawHighcharts() {
         },
         tooltip: {
             shadow: false,
-            padding: 10
+            padding: 10,
+            shared: true,
+            valueSuffix: '%'
         },
         responsive: {
             rules: [{
@@ -113,14 +118,18 @@ function drawHighcharts() {
             },
             chartOptions: {
                 chart: {
-                spacingRight: 10
+                spacingRight: 15
                 },
                 legend: {
                     align: 'left',
-                    x: -18
+                    x: -8
                 },
                 tooltip: {
                     enabled: false
+                },
+                yAxis: {
+                    ticks: 5,
+                    max: 80
                 }
             }
             }]
